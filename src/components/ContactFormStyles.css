@@ -1,0 +1,32 @@
+.from-cointainer{
+    margin: 4rem 6rem;
+    color:black;
+
+}
+
+.from-cointainer form{
+    padding-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin: auto;
+}
+
+.from-cointainer input{
+    height: 3rem;
+    padding: 0 1rem;
+    margin-bottom: 2rem;
+    border-radius: .3rem;
+    border:1px solid black;
+}
+
+.from-cointainer textarea{
+    padding: 1rem;
+    margin-bottom: 2rem;
+    border-radius: .3rem;
+    border:1px solid black;
+}
+
+.from-cointainer button{
+    display: inline;
+}
