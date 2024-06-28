@@ -13,7 +13,7 @@ const Destination=()=>{
             <p>Tours give you the oppurtunity to make some new memories.</p>
             <DestinationsData
                 className="first-des"
-                heading="The Maldives"
+                heading="Maldives"
                 text="More text"
                 img1={maldives1}
                 img2={maldives2}

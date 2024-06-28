@@ -1,4 +1,7 @@
+// SignIn.js
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useUser } from '../UserContext'; 
 import SignInImg from "../photos/signin_image.jpg";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
@@ -7,6 +10,8 @@ import Footer from "../components/Footer";
 function SignIn() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const { setUser } = useUser(); 
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -16,10 +21,9 @@ function SignIn() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const port = window.location.port ? `:${window.location.port}` : '';
+        const port = ':3001';
         const baseUrl = `${window.location.protocol}//${window.location.hostname}${port}`;
         const apiUrl = `${baseUrl}/api/login`;
-
         try {
             const response = await fetch(apiUrl, {
                 method: 'POST',
@@ -28,9 +32,14 @@ function SignIn() {
                 },
                 body: JSON.stringify({ email, password }),
             });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
             const data = await response.json();
             if (data.user) {
                 console.log('Login successful', data);
+                setUser({ name: data.user.NAME }); 
+                navigate('/');
             } else {
                 console.log('Login failed', data.message);
             }
@@ -42,28 +51,11 @@ function SignIn() {
     return (
         <>
             <Navbar />
-            <Hero
-                cName="hero-mid"
-                heroImg={SignInImg}
-                title="Sign In"
-                btnClass="hide"
-            />
+            <Hero cName="hero-mid" heroImg={SignInImg} title="Sign In" btnClass="hide" />
             <div className="form-container">
                 <form onSubmit={handleSubmit}>
-                    <input
-                        type="email"
-                        name="email"
-                        value={email}
-                        onChange={handleChange}
-                        placeholder="Email"
-                    />
-                    <input
-                        type="password"
-                        name="password"
-                        value={password}
-                        onChange={handleChange}
-                        placeholder="Password"
-                    />
+                    <input type="email" name="email" value={email} onChange={handleChange} placeholder="Email" />
+                    <input type="password" name="password" value={password} onChange={handleChange} placeholder="Password" />
                     <button type="submit">Sign In</button>
                 </form>
             </div>
